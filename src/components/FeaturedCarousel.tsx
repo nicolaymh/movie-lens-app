@@ -1,8 +1,6 @@
 /**
- * Carrusel de películas destacadas
- * ---------------------------------
- * Muestra un slider con las películas más populares.
- * Usa Swiper.js con navegación, autoplay y animación de entrada.
+ * @file Carrusel de películas destacadas.
+ * Muestra un slider con las películas populares usando Swiper.js.
  */
 
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -11,11 +9,19 @@ import { useGetPopularMoviesQuery } from '../api/moviesApi'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 
+/** Carrusel principal con animaciones y autoplay */
 export function FeaturedCarousel() {
     const { data, isLoading, error } = useGetPopularMoviesQuery(1)
 
-    if (isLoading) return <p className="text-center py-10 text-gray-400">Cargando...</p>
-    if (error) return <p className="text-center py-10 text-red-500">Error al cargar el carrusel 😞</p>
+    if (isLoading)
+        return <p className="text-center py-10 text-gray-400">Cargando...</p>
+
+    if (error)
+        return (
+            <p className="text-center py-10 text-red-500">
+                Error al cargar el carrusel 😞
+            </p>
+        )
 
     return (
         <motion.div
@@ -24,13 +30,15 @@ export function FeaturedCarousel() {
             transition={{ duration: 0.6, ease: 'easeOut' }}
             className="mb-10"
         >
-            <h2 className="text-2xl font-bold text-center mb-4">🎬 Películas destacadas</h2>
+            <h2 className="text-2xl font-bold text-center mb-4">
+                🎬 Películas destacadas
+            </h2>
 
             <Swiper
                 modules={[Navigation, Pagination, Autoplay]}
                 spaceBetween={20}
                 slidesPerView={1.2}
-                loop={true}
+                loop
                 autoplay={{ delay: 4000 }}
                 pagination={{ clickable: true }}
                 navigation

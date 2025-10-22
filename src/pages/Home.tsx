@@ -1,18 +1,21 @@
+/**
+ * @file Página principal: listado de películas populares.
+ * Muestra una cuadrícula de películas con paginación y animaciones.
+ */
+
 import { useState } from 'react'
 import { useGetPopularMoviesQuery } from '../api/moviesApi'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FeaturedCarousel } from '../components/FeaturedCarousel'
 
+/** Página principal con listado de películas y controles de paginación */
 export function Home() {
     const [page, setPage] = useState(1)
-
-    // ✅ RTK Query hook con opción de refetch
     const { data, isFetching, isLoading, error } = useGetPopularMoviesQuery(page, {
         refetchOnMountOrArgChange: true,
     })
 
-    // ✅ Mostrar indicador de carga mientras se actualiza
     if (isLoading || isFetching)
         return (
             <div className="flex items-center justify-center min-h-screen text-gray-600 dark:text-gray-300">
@@ -27,7 +30,6 @@ export function Home() {
             </div>
         )
 
-    // ✅ Variantes de animación
     const container = {
         hidden: { opacity: 0 },
         show: {
@@ -52,9 +54,9 @@ export function Home() {
 
             <h1 className="text-3xl font-bold mb-6 text-center">Películas populares</h1>
 
-            {/* ✅ Cuadrícula animada */}
+            {/* Cuadrícula animada */}
             <motion.div
-                key={page} // <-- 👈 CLAVE IMPORTANTE: fuerza re-render al cambiar de página
+                key={page}
                 variants={container}
                 initial="hidden"
                 animate="show"
@@ -87,7 +89,7 @@ export function Home() {
                 ))}
             </motion.div>
 
-            {/* ✅ Controles de paginación */}
+            {/* Controles de paginación */}
             <div className="flex justify-center items-center mt-8 gap-4">
                 <button
                     onClick={prevPage}

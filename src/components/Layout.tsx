@@ -1,11 +1,20 @@
+/**
+ * @file Layout principal de la aplicación.
+ * Define la estructura base: header, contenido principal y tema oscuro.
+ */
+
 import { Outlet } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { Header } from "./Header"
 
+/**
+ * Contenedor general de la aplicación.
+ * Maneja el modo oscuro y renderiza las páginas dentro del layout.
+ */
 export function Layout() {
     const [isDark, setIsDark] = useState(false)
 
-    // Al cargar, leemos el valor del localStorage o el tema del sistema
+    // Cargar el tema desde localStorage o usar preferencia del sistema
     useEffect(() => {
         const savedTheme = localStorage.getItem("theme")
         const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -14,7 +23,7 @@ export function Layout() {
         }
     }, [])
 
-    // Alternar y guardar el tema
+    // Cambiar el tema y guardarlo en localStorage
     const toggleTheme = () => {
         const newTheme = !isDark
         setIsDark(newTheme)

@@ -1,8 +1,6 @@
 /**
- * Punto de entrada principal de la aplicación.
- * -------------------------------------------------
- * Se monta la app de React y se conecta el store global
- * usando el proveedor de Redux Toolkit.
+ * @file Punto de entrada de la aplicación.
+ * Monta la app React en el DOM y conecta el store global de Redux.
  */
 
 import { StrictMode } from 'react'
@@ -17,5 +15,5 @@ createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
       <App />
     </Provider>
-  </StrictMode>,
+  </StrictMode>
 )
