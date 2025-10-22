@@ -7,11 +7,32 @@ export function Home() {
     const { data, isLoading, error } = useGetPopularMoviesQuery(1)
 
     if (isLoading)
-        return (
-            <div className="flex items-center justify-center min-h-screen text-gray-600 dark:text-gray-300">
+    return (
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white p-6">
+            <h1 className="text-3xl font-bold mb-6 text-center">
                 Cargando películas...
+            </h1>
+
+            {/* Cuadrícula de skeletons */}
+            <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+                {Array.from({ length: 10 }).map((_, i) => (
+                    <div
+                        key={i}
+                        className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden animate-pulse"
+                    >
+                        {/* Imagen placeholder */}
+                        <div className="w-full h-80 bg-gray-300 dark:bg-gray-700" />
+
+                        {/* Texto placeholder */}
+                        <div className="p-3 space-y-2">
+                            <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
+                            <div className="h-3 bg-gray-200 dark:bg-gray-600 rounded w-1/2"></div>
+                        </div>
+                    </div>
+                ))}
             </div>
-        )
+        </div>
+    )
 
     if (error)
         return (
