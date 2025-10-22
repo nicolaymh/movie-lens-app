@@ -1,12 +1,7 @@
-/**
- * @file Página de detalle de película.
- * Muestra la información completa de una película desde la API de TMDB.
- */
-
+import { motion } from 'framer-motion'
 import { useParams, Link } from 'react-router-dom'
 import { useGetMovieByIdQuery } from '../api/moviesApi'
 
-/** Vista de detalle de una película seleccionada */
 export default function MovieDetail() {
     const { id } = useParams<{ id: string }>()
     const { data: movie, isLoading, error } = useGetMovieByIdQuery(Number(id))
@@ -28,7 +23,13 @@ export default function MovieDetail() {
     if (!movie) return null
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white p-6">
+        <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+            className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white p-6"
+        >
             <div className="flex flex-col md:flex-row items-start gap-6 max-w-5xl mx-auto">
                 <img
                     src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -38,9 +39,7 @@ export default function MovieDetail() {
 
                 <div className="flex-1">
                     <h1 className="text-3xl font-bold mb-2">{movie.title}</h1>
-                    <p className="text-yellow-400 mb-2">
-                        ⭐ {movie.vote_average.toFixed(1)} / 10
-                    </p>
+                    <p className="text-yellow-400 mb-2">⭐ {movie.vote_average.toFixed(1)} / 10</p>
 
                     <div className="flex flex-wrap gap-2 mb-4">
                         {movie.genres?.map((genre: any) => (
@@ -71,6 +70,6 @@ export default function MovieDetail() {
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     )
 }

@@ -1,15 +1,9 @@
-/**
- * @file Página principal: listado de películas populares.
- * Muestra una cuadrícula de películas con paginación y animaciones.
- */
-
+import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { useGetPopularMoviesQuery } from '../api/moviesApi'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
 import { FeaturedCarousel } from '../components/FeaturedCarousel'
 
-/** Página principal con listado de películas y controles de paginación */
 export default function Home() {
     const [page, setPage] = useState(1)
     const { data, isFetching, isLoading, error } = useGetPopularMoviesQuery(page, {
@@ -47,7 +41,13 @@ export default function Home() {
     const prevPage = () => setPage((p) => Math.max(p - 1, 1))
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white p-6">
+        <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            transition={{ duration: 0.3 }}
+            className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white p-6"
+        >
             <div className="max-w-6xl mx-auto mb-10">
                 <FeaturedCarousel />
             </div>
@@ -108,6 +108,6 @@ export default function Home() {
                     Siguiente →
                 </button>
             </div>
-        </div>
+        </motion.div>
     )
 }
