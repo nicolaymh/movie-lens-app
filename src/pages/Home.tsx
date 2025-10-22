@@ -12,8 +12,9 @@ export default function Home() {
 
     if (isLoading || isFetching)
         return (
-            <div className="flex items-center justify-center min-h-screen text-gray-600 dark:text-gray-300">
-                Cargando películas...
+            <div className="flex flex-col items-center justify-center min-h-screen text-gray-600 dark:text-gray-300">
+                <div className="animate-spin h-12 w-12 border-4 border-blue-500 border-t-transparent rounded-full mb-4"></div>
+                <p className="text-sm">Cargando películas...</p>
             </div>
         )
 
