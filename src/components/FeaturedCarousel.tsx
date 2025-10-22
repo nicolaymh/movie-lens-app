@@ -2,13 +2,14 @@
  * Carrusel de películas destacadas
  * ---------------------------------
  * Muestra un slider con las películas más populares.
- * Usa Swiper.js con navegación y paginación.
+ * Usa Swiper.js con navegación, autoplay y animación de entrada.
  */
 
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import { useGetPopularMoviesQuery } from '../api/moviesApi'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 
 export function FeaturedCarousel() {
     const { data, isLoading, error } = useGetPopularMoviesQuery(1)
@@ -17,7 +18,12 @@ export function FeaturedCarousel() {
     if (error) return <p className="text-center py-10 text-red-500">Error al cargar el carrusel 😞</p>
 
     return (
-        <div className="mb-10">
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="mb-10"
+        >
             <h2 className="text-2xl font-bold text-center mb-4">🎬 Películas destacadas</h2>
 
             <Swiper
@@ -53,6 +59,6 @@ export function FeaturedCarousel() {
                     </SwiperSlide>
                 ))}
             </Swiper>
-        </div>
+        </motion.div>
     )
 }
