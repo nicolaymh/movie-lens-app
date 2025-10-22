@@ -47,7 +47,7 @@ export default function Home() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
             transition={{ duration: 0.3 }}
-            className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white p-4 sm:p-6"
+            className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-500 p-6"
         >
             <div className="max-w-6xl mx-auto mb-10">
                 <FeaturedCarousel />
@@ -74,7 +74,7 @@ export default function Home() {
                     >
                         <Link
                             to={`/movie/${movie.id}`}
-                            className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden block transition-transform duration-300"
+                            className="bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300 rounded-lg shadow overflow-hidden block"
                         >
                             <img
                                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
