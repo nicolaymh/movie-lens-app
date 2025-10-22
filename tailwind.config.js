@@ -6,9 +6,6 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
 
-  // Activamos el modo oscuro usando la clase 'dark' en el elemento raíz
-  darkMode: 'class',
-
   theme: {
     extend: {
       // Colores personalizados que podemos usar en toda la app
@@ -21,4 +18,7 @@ export default {
 
   // Aquí podríamos añadir plugins si los necesitamos más adelante
   plugins: [],
+
+    // Activamos el modo oscuro usando la clase 'dark' en el elemento raíz
+  darkMode: 'class',
 }
