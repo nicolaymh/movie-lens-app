@@ -36,14 +36,6 @@ export function MovieDetail() {
 
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white p-6">
-            {/* Botón para volver al listado */}
-            <Link
-                to="/"
-                className="inline-block mb-6 text-blue-500 hover:underline text-sm"
-            >
-                ← Volver al listado
-            </Link>
-
             {/* Contenedor principal del detalle */}
             <div className="flex flex-col md:flex-row items-start gap-6 max-w-5xl mx-auto">
                 {/* Imagen grande del póster */}
@@ -83,6 +75,16 @@ export function MovieDetail() {
                     <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">
                         Fecha de estreno: {movie.release_date}
                     </p>
+
+                    {/* Botón para volver al listado */}
+                    <div className="mt-8">
+                        <Link
+                            to="/"
+                            className="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2 rounded-md shadow transition-colors duration-300"
+                        >
+                            ← Volver al listado
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
