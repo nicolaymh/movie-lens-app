@@ -1,8 +1,9 @@
-/* Importa los estilos base de Tailwind (reset y tipografía) */
-@tailwind base;
+@import "tailwindcss";
 
-/* Carga los componentes predefinidos de Tailwind */
-@tailwind components;
-
-/* Habilita las utilidades (colores, márgenes, flex, grid, etc.) */
-@tailwind utilities;
+/* Estilos base opcionales */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, sans-serif;
+  background-color: #f9fafb;
+}
