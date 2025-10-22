@@ -47,13 +47,15 @@ export default function Home() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
             transition={{ duration: 0.3 }}
-            className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white p-6"
+            className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white p-4 sm:p-6"
         >
             <div className="max-w-6xl mx-auto mb-10">
                 <FeaturedCarousel />
             </div>
 
-            <h1 className="text-3xl font-bold mb-6 text-center">Películas populares</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">
+                Películas populares
+            </h1>
 
             {/* Cuadrícula animada */}
             <motion.div
@@ -61,7 +63,7 @@ export default function Home() {
                 variants={container}
                 initial="hidden"
                 animate="show"
-                className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+                className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
             >
                 {data?.results.map((movie: any) => (
                     <motion.div
@@ -72,16 +74,16 @@ export default function Home() {
                     >
                         <Link
                             to={`/movie/${movie.id}`}
-                            className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden block"
+                            className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden block transition-transform duration-300"
                         >
                             <img
                                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                                 alt={movie.title}
-                                className="w-full h-80 object-cover"
+                                className="w-full h-72 sm:h-80 object-cover"
                             />
                             <div className="p-3">
                                 <h2 className="text-sm font-semibold truncate">{movie.title}</h2>
-                                <p className="text-xs text-gray-500">
+                                <p className="text-xs text-gray-500 dark:text-gray-400">
                                     ⭐ {movie.vote_average.toFixed(1)} — {movie.release_date?.slice(0, 4)}
                                 </p>
                             </div>
@@ -100,7 +102,9 @@ export default function Home() {
                     ← Anterior
                 </button>
 
-                <span className="text-sm text-gray-700 dark:text-gray-300">Página {page}</span>
+                <span className="text-sm text-gray-700 dark:text-gray-300">
+                    Página {page}
+                </span>
 
                 <button
                     onClick={nextPage}
