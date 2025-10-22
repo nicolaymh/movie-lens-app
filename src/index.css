@@ -1,0 +1,8 @@
+/* Importa los estilos base de Tailwind (reset y tipografía) */
+@tailwind base;
+
+/* Carga los componentes predefinidos de Tailwind */
+@tailwind components;
+
+/* Habilita las utilidades (colores, márgenes, flex, grid, etc.) */
+@tailwind utilities;
