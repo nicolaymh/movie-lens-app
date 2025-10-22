@@ -7,7 +7,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useGetMovieByIdQuery } from '../api/moviesApi'
 
 /** Vista de detalle de una película seleccionada */
-export function MovieDetail() {
+export default function MovieDetail() {
     const { id } = useParams<{ id: string }>()
     const { data: movie, isLoading, error } = useGetMovieByIdQuery(Number(id))
 

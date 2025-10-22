@@ -10,7 +10,7 @@ import { motion } from 'framer-motion'
 import { FeaturedCarousel } from '../components/FeaturedCarousel'
 
 /** Página principal con listado de películas y controles de paginación */
-export function Home() {
+export default function Home() {
     const [page, setPage] = useState(1)
     const { data, isFetching, isLoading, error } = useGetPopularMoviesQuery(page, {
         refetchOnMountOrArgChange: true,
