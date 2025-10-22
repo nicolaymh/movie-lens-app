@@ -3,10 +3,12 @@
  * -------------------------------------------------
  * Consume el endpoint de TMDB usando RTK Query y
  * muestra las películas en una cuadrícula responsive.
+ * Además incluye un carrusel superior con Swiper.js.
  */
 
 import { useGetPopularMoviesQuery } from '../api/moviesApi'
 import { Link } from 'react-router-dom'
+import { FeaturedCarousel } from '../components/FeaturedCarousel'
 
 export function Home() {
     // Consulta a la API (página 1 por defecto)
@@ -30,6 +32,11 @@ export function Home() {
 
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white p-6">
+            {/* Carrusel superior con películas destacadas */}
+            <div className="max-w-6xl mx-auto mb-10">
+                <FeaturedCarousel />
+            </div>
+
             {/* Título principal */}
             <h1 className="text-3xl font-bold mb-6 text-center">
                 Películas populares

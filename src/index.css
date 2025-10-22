@@ -7,3 +7,9 @@ html, body {
   font-family: system-ui, sans-serif;
   background-color: #f9fafb;
 }
+
+/* Swiper styles */
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+
