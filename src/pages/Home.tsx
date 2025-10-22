@@ -1,38 +1,24 @@
+import { useState } from 'react'
 import { useGetPopularMoviesQuery } from '../api/moviesApi'
 import { Link } from 'react-router-dom'
-import { FeaturedCarousel } from '../components/FeaturedCarousel'
 import { motion } from 'framer-motion'
+import { FeaturedCarousel } from '../components/FeaturedCarousel'
 
 export function Home() {
-    const { data, isLoading, error } = useGetPopularMoviesQuery(1)
+    const [page, setPage] = useState(1)
 
-    if (isLoading)
-    return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white p-6">
-            <h1 className="text-3xl font-bold mb-6 text-center">
+    // ✅ RTK Query hook con opción de refetch
+    const { data, isFetching, isLoading, error } = useGetPopularMoviesQuery(page, {
+        refetchOnMountOrArgChange: true,
+    })
+
+    // ✅ Mostrar indicador de carga mientras se actualiza
+    if (isLoading || isFetching)
+        return (
+            <div className="flex items-center justify-center min-h-screen text-gray-600 dark:text-gray-300">
                 Cargando películas...
-            </h1>
-
-            {/* Cuadrícula de skeletons */}
-            <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                {Array.from({ length: 10 }).map((_, i) => (
-                    <div
-                        key={i}
-                        className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden animate-pulse"
-                    >
-                        {/* Imagen placeholder */}
-                        <div className="w-full h-80 bg-gray-300 dark:bg-gray-700" />
-
-                        {/* Texto placeholder */}
-                        <div className="p-3 space-y-2">
-                            <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
-                            <div className="h-3 bg-gray-200 dark:bg-gray-600 rounded w-1/2"></div>
-                        </div>
-                    </div>
-                ))}
             </div>
-        </div>
-    )
+        )
 
     if (error)
         return (
@@ -41,14 +27,12 @@ export function Home() {
             </div>
         )
 
-    // Variantes de animación para el contenedor y las tarjetas
+    // ✅ Variantes de animación
     const container = {
         hidden: { opacity: 0 },
         show: {
             opacity: 1,
-            transition: {
-                staggerChildren: 0.08, // Pequeño retardo entre tarjetas
-            },
+            transition: { staggerChildren: 0.08 },
         },
     }
 
@@ -57,20 +41,20 @@ export function Home() {
         show: { opacity: 1, y: 0 },
     }
 
+    const nextPage = () => setPage((p) => p + 1)
+    const prevPage = () => setPage((p) => Math.max(p - 1, 1))
+
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white p-6">
-            {/* Carrusel superior */}
             <div className="max-w-6xl mx-auto mb-10">
                 <FeaturedCarousel />
             </div>
 
-            {/* Título principal */}
-            <h1 className="text-3xl font-bold mb-6 text-center">
-                Películas populares
-            </h1>
+            <h1 className="text-3xl font-bold mb-6 text-center">Películas populares</h1>
 
-            {/* Cuadrícula animada de películas */}
+            {/* ✅ Cuadrícula animada */}
             <motion.div
+                key={page} // <-- 👈 CLAVE IMPORTANTE: fuerza re-render al cambiar de página
                 variants={container}
                 initial="hidden"
                 animate="show"
@@ -95,14 +79,33 @@ export function Home() {
                             <div className="p-3">
                                 <h2 className="text-sm font-semibold truncate">{movie.title}</h2>
                                 <p className="text-xs text-gray-500">
-                                    ⭐ {movie.vote_average.toFixed(1)} —{' '}
-                                    {movie.release_date?.slice(0, 4)}
+                                    ⭐ {movie.vote_average.toFixed(1)} — {movie.release_date?.slice(0, 4)}
                                 </p>
                             </div>
                         </Link>
                     </motion.div>
                 ))}
             </motion.div>
+
+            {/* ✅ Controles de paginación */}
+            <div className="flex justify-center items-center mt-8 gap-4">
+                <button
+                    onClick={prevPage}
+                    disabled={page === 1}
+                    className="px-4 py-2 rounded bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 disabled:opacity-50"
+                >
+                    ← Anterior
+                </button>
+
+                <span className="text-sm text-gray-700 dark:text-gray-300">Página {page}</span>
+
+                <button
+                    onClick={nextPage}
+                    className="px-4 py-2 rounded bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600"
+                >
+                    Siguiente →
+                </button>
+            </div>
         </div>
     )
 }
