@@ -4,31 +4,15 @@
  */
 
 import { Outlet } from "react-router-dom"
-import { useEffect, useState } from "react"
 import { Header } from "./Header"
+import { useTheme } from "../../hooks/useTheme"
 
 /**
  * Contenedor general de la aplicación.
  * Maneja el modo oscuro y renderiza las páginas dentro del layout.
  */
 export function Layout() {
-    const [isDark, setIsDark] = useState(false)
-
-    // Cargar el tema desde localStorage o usar preferencia del sistema
-    useEffect(() => {
-        const savedTheme = localStorage.getItem("theme")
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
-        if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
-            setIsDark(true)
-        }
-    }, [])
-
-    // Cambiar el tema y guardarlo en localStorage
-    const toggleTheme = () => {
-        const newTheme = !isDark
-        setIsDark(newTheme)
-        localStorage.setItem("theme", newTheme ? "dark" : "light")
-    }
+    const { isDark, toggleTheme } = useTheme()
 
     return (
         <div

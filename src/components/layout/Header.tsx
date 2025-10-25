@@ -5,6 +5,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
+import { menuSlideVariants } from '../../utils/animations'
 
 /**
  * Encabezado con soporte para tema oscuro y menú móvil.
@@ -19,13 +20,6 @@ export function Header({
   toggleTheme: () => void
 }) {
   const [isOpen, setIsOpen] = useState(false)
-
-  // Variantes del menú lateral
-  const menuVariants = {
-    hidden: { x: '100%' },
-    visible: { x: 0, transition: { duration: 0.3 } },
-    exit: { x: '100%', transition: { duration: 0.25 } },
-  }
 
   return (
     <header
@@ -90,7 +84,7 @@ export function Header({
       <AnimatePresence>
         {isOpen && (
           <motion.nav
-            variants={menuVariants}
+            variants={menuSlideVariants}
             initial="hidden"
             animate="visible"
             exit="exit"

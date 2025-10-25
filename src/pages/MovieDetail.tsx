@@ -1,39 +1,32 @@
 import { motion } from 'framer-motion'
 import { useParams, Link } from 'react-router-dom'
 import { useGetMovieByIdQuery } from '../api/moviesApi'
+import { LoadingSpinner } from '../components/ui/LoadingSpinner'
+import { ErrorMessage } from '../components/ui/ErrorMessage'
+import { Button } from '../components/ui/Button'
+import { getPosterUrl } from '../utils/imageUtils'
+import { pageTransitionRight } from '../utils/animations'
+import type { Genre } from '../types/movie.types'
 
 export default function MovieDetail() {
     const { id } = useParams<{ id: string }>()
     const { data: movie, isLoading, error } = useGetMovieByIdQuery(Number(id))
 
-    if (isLoading)
-        return (
-            <div className="flex flex-col items-center justify-center min-h-screen text-gray-600 dark:text-gray-300">
-                <div className="animate-spin h-12 w-12 border-4 border-blue-500 border-t-transparent rounded-full mb-4"></div>
-                <p className="text-sm">Cargando información...</p>
-            </div>
-        )
+    if (isLoading) return <LoadingSpinner message="Cargando información..." />
 
-    if (error)
-        return (
-            <div className="flex items-center justify-center min-h-screen text-red-500">
-                No se pudo cargar la información 😞
-            </div>
-        )
+    if (error) return <ErrorMessage message="No se pudo cargar la información" />
 
     if (!movie) return null
 
     return (
         <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
+            {...pageTransitionRight}
             transition={{ duration: 0.3 }}
-            className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white p-6"
+            className="min-h-screen p-6"
         >
             <div className="flex flex-col md:flex-row items-start gap-6 max-w-5xl mx-auto">
                 <img
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    src={getPosterUrl(movie.poster_path, 'large')}
                     alt={movie.title}
                     className="w-full md:w-1/3 rounded-lg shadow-lg"
                 />
@@ -43,7 +36,7 @@ export default function MovieDetail() {
                     <p className="text-yellow-400 mb-2">⭐ {movie.vote_average.toFixed(1)} / 10</p>
 
                     <div className="flex flex-wrap gap-2 mb-4">
-                        {movie.genres?.map((genre: any) => (
+                        {movie.genres?.map((genre: Genre) => (
                             <span
                                 key={genre.id}
                                 className="text-xs bg-blue-600 text-white px-2 py-1 rounded"
@@ -62,11 +55,10 @@ export default function MovieDetail() {
                     </p>
 
                     <div className="mt-8">
-                        <Link
-                            to="/"
-                            className="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2 rounded-md shadow transition-colors duration-300"
-                        >
-                            ← Volver al listado
+                        <Link to="/">
+                            <Button variant="primary">
+                                ← Volver al listado
+                            </Button>
                         </Link>
                     </div>
                 </div>

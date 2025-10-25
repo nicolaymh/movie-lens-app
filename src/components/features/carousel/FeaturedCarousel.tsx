@@ -5,9 +5,12 @@
 
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, Autoplay } from 'swiper/modules'
-import { useGetPopularMoviesQuery } from '../api/moviesApi'
+import { useGetPopularMoviesQuery } from '../../../api/moviesApi'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import { getBackdropUrl } from '../../../utils/imageUtils'
+import { CAROUSEL_CONFIG } from '../../../utils/constants'
+import type { Movie } from '../../../types/movie.types'
 
 /** Carrusel principal con animaciones y autoplay */
 export function FeaturedCarousel() {
@@ -19,7 +22,7 @@ export function FeaturedCarousel() {
     if (error)
         return (
             <p className="text-center py-10 text-red-500">
-                Error al cargar el carrusel 😞
+                Error al cargar el carrusel
             </p>
         )
 
@@ -31,7 +34,7 @@ export function FeaturedCarousel() {
             className="mb-10"
         >
             <h2 className="text-2xl font-bold text-center mb-4">
-                🎬 Películas destacadas
+                Películas destacadas
             </h2>
 
             <Swiper
@@ -39,7 +42,7 @@ export function FeaturedCarousel() {
                 spaceBetween={20}
                 slidesPerView={1.2}
                 loop
-                autoplay={{ delay: 4000 }}
+                autoplay={{ delay: CAROUSEL_CONFIG.autoplayDelay }}
                 pagination={{ clickable: true }}
                 navigation
                 breakpoints={{
@@ -48,12 +51,12 @@ export function FeaturedCarousel() {
                 }}
                 className="rounded-lg overflow-hidden"
             >
-                {data?.results.slice(0, 8).map((movie: any) => (
+                {data?.results.slice(0, CAROUSEL_CONFIG.maxFeaturedMovies).map((movie: Movie) => (
                     <SwiperSlide key={movie.id}>
                         <Link to={`/movie/${movie.id}`}>
                             <div className="relative group">
                                 <img
-                                    src={`https://image.tmdb.org/t/p/w780${movie.backdrop_path}`}
+                                    src={getBackdropUrl(movie.backdrop_path, 'medium')}
                                     alt={movie.title}
                                     className="rounded-lg w-full h-60 object-cover group-hover:opacity-80 transition-opacity"
                                 />

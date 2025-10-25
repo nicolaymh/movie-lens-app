@@ -1,7 +1,8 @@
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
-import { Layout } from './components/Layout'
+import { Layout } from './components/layout/Layout'
 import { AnimatePresence } from 'framer-motion'
+import { LoadingSpinner } from './components/ui/LoadingSpinner'
 
 const Home = lazy(() => import('./pages/Home'))
 const MovieDetail = lazy(() => import('./pages/MovieDetail'))
@@ -10,13 +11,7 @@ function App() {
   const location = useLocation()
 
   return (
-    <Suspense
-      fallback={
-        <div className="flex items-center justify-center min-h-screen text-gray-600 dark:text-gray-300">
-          Cargando contenido...
-        </div>
-      }
-    >
+    <Suspense fallback={<LoadingSpinner message="Cargando contenido..." />}>
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route element={<Layout />}>
