@@ -1,40 +1,49 @@
 /**
- * @file Custom hook para manejo del tema (claro/oscuro)
+ * @file Custom hook para manejo del tema (claro/oscuro) con Redux
  */
 
-import { useState, useEffect } from 'react'
-import { THEMES, THEME_STORAGE_KEY } from '../utils/constants'
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectTheme, toggleTheme as toggleThemeAction } from '../app/themeSlice'
 
 /**
- * Hook para gestionar el tema de la aplicación con persistencia en localStorage
- * @returns Objeto con el estado del tema y función para cambiarlo
+ * Hook para gestionar el tema de la aplicación usando Redux
+ *
+ * @returns Objeto con:
+ * - `isDark`: boolean que indica si el tema actual es oscuro
+ * - `toggleTheme`: función para alternar entre claro y oscuro
+ * - `theme`: valor del tema ('light' | 'dark')
+ *
+ * @example
+ * ```tsx
+ * function MyComponent() {
+ *   const { isDark, toggleTheme } = useTheme()
+ *
+ *   return (
+ *     <button onClick={toggleTheme}>
+ *       {isDark ? 'Modo Claro' : 'Modo Oscuro'}
+ *     </button>
+ *   )
+ * }
+ * ```
  */
 export function useTheme() {
-  const [isDark, setIsDark] = useState(() => {
-    // Verificar preferencia guardada en localStorage
-    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY)
-    if (savedTheme) {
-      return savedTheme === THEMES.DARK
-    }
-    // Si no hay preferencia guardada, usar preferencia del sistema
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-  })
+  const dispatch = useDispatch()
+  const theme = useSelector(selectTheme)
+  const isDark = theme === 'dark'
 
+  // Aplicar el tema al cargar el componente (para el estado inicial)
   useEffect(() => {
-    // Aplicar el tema al documento
-    document.documentElement.classList.toggle('dark', isDark)
-  }, [isDark])
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [theme])
 
   const toggleTheme = () => {
-    setIsDark((prev) => {
-      const newTheme = !prev
-      localStorage.setItem(
-        THEME_STORAGE_KEY,
-        newTheme ? THEMES.DARK : THEMES.LIGHT
-      )
-      return newTheme
-    })
+    dispatch(toggleThemeAction())
   }
 
-  return { isDark, toggleTheme }
+  return { isDark, toggleTheme, theme }
 }

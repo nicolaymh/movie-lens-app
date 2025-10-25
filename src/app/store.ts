@@ -6,6 +6,8 @@
 
 import { configureStore } from '@reduxjs/toolkit'
 import { moviesApi } from '../api/moviesApi'
+import themeReducer from './themeSlice'
+import { themeMiddleware } from './themeMiddleware'
 
 /**
  * Configura el store principal de Redux Toolkit.
@@ -14,13 +16,16 @@ import { moviesApi } from '../api/moviesApi'
  * - `moviesApi.reducer`: reducer que gestiona el estado del cache de la API.
  * - `moviesApi.middleware`: middleware que intercepta las peticiones y
  *   habilita características como refetch automático y actualización optimista.
+ * - `theme`: reducer que gestiona el estado del tema (claro/oscuro).
+ * - `themeMiddleware`: sincroniza el tema con el DOM y localStorage.
  */
 export const store = configureStore({
     reducer: {
         [moviesApi.reducerPath]: moviesApi.reducer,
+        theme: themeReducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(moviesApi.middleware),
+        getDefaultMiddleware().concat(moviesApi.middleware, themeMiddleware),
 })
 
 /**
