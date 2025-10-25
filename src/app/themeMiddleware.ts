@@ -6,28 +6,38 @@
  * 2. Guarda la preferencia en localStorage
  */
 
+import type { Middleware } from '@reduxjs/toolkit'
 import { THEME_STORAGE_KEY } from '../utils/constants'
+
+interface ThemeState {
+  mode: 'light' | 'dark'
+}
 
 /**
  * Middleware que sincroniza el tema de Redux con el DOM y localStorage
  */
-export const themeMiddleware = (store: any) => (next: any) => (action: any) => {
+export const themeMiddleware: Middleware = (store) => (next) => (action) => {
   // Ejecutar la acción primero
   const result = next(action)
 
   // Si la acción es relacionada con el tema, sincronizar
-  if (action.type?.startsWith('theme/')) {
-    const theme = store.getState().theme.mode
+  if (typeof action === 'object' && action !== null && 'type' in action) {
+    const actionType = action.type as string
 
-    // 1. Actualizar clase en <html>
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
+    if (actionType.startsWith('theme/')) {
+      const state = store.getState() as { theme: ThemeState }
+      const theme = state.theme.mode
+
+      // 1. Actualizar clase en <html>
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
+
+      // 2. Guardar en localStorage
+      localStorage.setItem(THEME_STORAGE_KEY, theme)
     }
-
-    // 2. Guardar en localStorage
-    localStorage.setItem(THEME_STORAGE_KEY, theme)
   }
 
   return result
